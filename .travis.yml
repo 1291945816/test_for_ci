@@ -1,0 +1,26 @@
+sudo: false
+language: python
+python:
+- 3.6
+branches:
+  only:
+  - main # build main branch only
+
+env:
+  global:
+  - T_IP: 119.91.64.88
+  - PORT: 20010
+
+addons:
+  ssh_known_hosts: 
+  - 119.91.64.88
+
+before_install:
+- echo ${ID_RSA} | base64 -d > ~/.ssh/id_rsa
+- chmod 600 ~/.ssh/id_rsa
+
+script:
+- ssh -p ${PORT} root@${T_IP} "cd /root/work_travis_/work_project "
+
+after_success:
+- echo "deploy success"
